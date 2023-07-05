@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/Model/weather_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/Services/weather_services.dart';
-
-import 'package:weather_app/weather_Provider.dart';
+import 'package:weather_app/cubits/Weather_cubit/weather_cubit.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
@@ -17,18 +15,21 @@ class SearchPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: TextField(
               onSubmitted: (data) async {
-                WeatherModel? response =
-                    await services.getWeather(cityName: data);
+                BlocProvider.of<WeatherCubit>(context)
+                    .getWeather(cityName: data);
+                Navigator.pop(context);
+                // WeatherModel? response =
+                //     await services.getWeather(cityName: data);
 
-                Provider.of<WeatherProvider>(context, listen: false)
-                    .WeatherData = response;
-                if (response != null) {
-                  Navigator.pop(context);
-                } else {
-                  var snackBar = SnackBar(content: Text('Wrong City'));
+                // Provider.of<WeatherProvider>(context, listen: false)
+                //     .WeatherData = response;
+                // if (response != null) {
+                //   Navigator.pop(context);
+                // } else {
+                //   var snackBar = SnackBar(content: Text('Wrong City'));
 
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
+                //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                // }
               },
               decoration: const InputDecoration(
                   contentPadding:
