@@ -18,18 +18,6 @@ class SearchPage extends StatelessWidget {
                 BlocProvider.of<WeatherCubit>(context)
                     .getWeather(cityName: data);
                 Navigator.pop(context);
-                // WeatherModel? response =
-                //     await services.getWeather(cityName: data);
-
-                // Provider.of<WeatherProvider>(context, listen: false)
-                //     .WeatherData = response;
-                // if (response != null) {
-                //   Navigator.pop(context);
-                // } else {
-                //   var snackBar = SnackBar(content: Text('Wrong City'));
-
-                //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                // }
               },
               decoration: const InputDecoration(
                   contentPadding:
