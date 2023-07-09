@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/Model/weather_model.dart';
-import 'package:weather_app/Services/weather_services.dart';
 
-import '../providers/weather_Provider.dart';
+import '../providers/weather_provider.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
-  final WeatherServices services = WeatherServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +15,11 @@ class SearchPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: TextField(
               onSubmitted: (data) async {
-                WeatherModel? response =
-                    await services.getWeather(cityName: data);
+                WeatherModel? weatherModel =
+                    await Provider.of<WeatherProvider>(context, listen: false)
+                        .getWeather(cityName: data);
 
-                Provider.of<WeatherProvider>(context, listen: false)
-                    .weatherData = response;
-                if (response != null) {
+                if (weatherModel != null) {
                   Navigator.pop(context);
                 } else {
                   var snackBar = SnackBar(content: Text('Wrong City'));
