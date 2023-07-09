@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/weather_Provider.dart';
+import 'package:weather_app/providers/weather_Provider.dart';
 
 import 'pages/home_page.dart';
 
@@ -20,7 +20,7 @@ class WeatherAPP extends StatelessWidget {
     return MaterialApp(
         theme: ThemeData(
           primarySwatch: Provider.of<WeatherProvider>(context)
-                  .WeatherData
+                  .weatherData
                   ?.getThemeColor() ??
               Colors.blue,
         ),

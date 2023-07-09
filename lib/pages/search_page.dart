@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/Model/weather_model.dart';
 import 'package:weather_app/Services/weather_services.dart';
 
-import 'package:weather_app/weather_Provider.dart';
+import '../providers/weather_Provider.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
@@ -21,7 +21,7 @@ class SearchPage extends StatelessWidget {
                     await services.getWeather(cityName: data);
 
                 Provider.of<WeatherProvider>(context, listen: false)
-                    .WeatherData = response;
+                    .weatherData = response;
                 if (response != null) {
                   Navigator.pop(context);
                 } else {
