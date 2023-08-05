@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/Model/weather_model.dart';
-import '../providers/weather_provider.dart';
+import 'package:weather_app/Weather_riverpod/weather_riverpod.dart';
+
 import 'search_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends ConsumerWidget {
   @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Widget build(BuildContext context, ref) {
+    final WeatherModel? data = ref.watch(WeatherProvider).weatherModel;
 
-class _HomePageState extends State<HomePage> {
-  WeatherModel? weatherData;
-  @override
-  Widget build(BuildContext context) {
-    weatherData = Provider.of<WeatherProvider>(context).weatherModel;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Weather APP"),
@@ -28,7 +23,7 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.search))
           ],
         ),
-        body: weatherData == null
+        body: data == null
             ? const Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                   colors: [
-                    weatherData?.getThemeColor() as Color,
+                    data?.getThemeColor() as Color,
                     Colors.white,
                   ],
                   begin: Alignment.topCenter,
@@ -55,30 +50,30 @@ class _HomePageState extends State<HomePage> {
                     flex: 3,
                   ),
                   Text(
-                    weatherData!.name,
+                    data!.name,
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.w500),
                   ),
-                  Text(weatherData!.date),
+                  Text(data!.date),
                   const Spacer(
                     flex: 1,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Image.network("http:${weatherData!.icon}"),
+                      Image.network("http:${data!.icon}"),
                       Text(
-                        weatherData!.temp.toInt().toString(),
+                        data!.temp.toInt().toString(),
                         style: const TextStyle(fontSize: 30),
                       ),
                       Column(
                         children: [
                           Text(
-                            "max:${weatherData!.maxtemp.toInt()}",
+                            "max:${data!.maxtemp.toInt()}",
                             style: const TextStyle(fontSize: 20),
                           ),
                           Text(
-                            "min:${weatherData!.mintemp.toInt()}",
+                            "min:${data!.mintemp.toInt()}",
                             style: const TextStyle(fontSize: 20),
                           )
                         ],
@@ -89,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                     flex: 1,
                   ),
                   Text(
-                    weatherData!.stateName,
+                    data!.stateName,
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.w500),
                   ),
@@ -97,6 +92,78 @@ class _HomePageState extends State<HomePage> {
                     flex: 3,
                   )
                 ]),
-              ));
+              )
+
+        // body: weatherData == null
+        //     ? const Center(
+        //         child: Column(
+        //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //             children: [
+        //               Text(
+        //                 "there is no Weather 😒\nstart Searching now 🔎 ",
+        //                 textAlign: TextAlign.center,
+        //                 style: TextStyle(fontSize: 20),
+        //               )
+        //             ]),
+        //       )
+        //     : Container(
+        //         decoration: BoxDecoration(
+        //             gradient: LinearGradient(
+        //           colors: [
+        //             weatherData?.getThemeColor() as Color,
+        //             Colors.white,
+        //           ],
+        //           begin: Alignment.topCenter,
+        //           end: Alignment.bottomCenter,
+        //         )),
+        //         child: Column(children: [
+        //           const Spacer(
+        //             flex: 3,
+        //           ),
+        //           Text(
+        //             weatherData!.name,
+        //             style: const TextStyle(
+        //                 fontSize: 30, fontWeight: FontWeight.w500),
+        //           ),
+        //           Text(weatherData!.date),
+        //           const Spacer(
+        //             flex: 1,
+        //           ),
+        //           Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //             children: [
+        //               Image.network("http:${weatherData!.icon}"),
+        //               Text(
+        //                 weatherData!.temp.toInt().toString(),
+        //                 style: const TextStyle(fontSize: 30),
+        //               ),
+        //               Column(
+        //                 children: [
+        //                   Text(
+        //                     "max:${weatherData!.maxtemp.toInt()}",
+        //                     style: const TextStyle(fontSize: 20),
+        //                   ),
+        //                   Text(
+        //                     "min:${weatherData!.mintemp.toInt()}",
+        //                     style: const TextStyle(fontSize: 20),
+        //                   )
+        //                 ],
+        //               )
+        //             ],
+        //           ),
+        //           const Spacer(
+        //             flex: 1,
+        //           ),
+        //           Text(
+        //             weatherData!.stateName,
+        //             style: const TextStyle(
+        //                 fontSize: 30, fontWeight: FontWeight.w500),
+        //           ),
+        //           const Spacer(
+        //             flex: 3,
+        //           )
+        //         ]),
+        //       )
+        );
   }
 }

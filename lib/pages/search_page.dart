@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/Model/weather_model.dart';
-
-import '../providers/weather_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/Services/weather_services.dart';
+import 'package:weather_app/Weather_riverpod/weather_riverpod.dart';
 
 class SearchPage extends StatelessWidget {
-  SearchPage({super.key});
+  final WeatherServices services = WeatherServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,27 +12,25 @@ class SearchPage extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: TextField(
-              onSubmitted: (data) async {
-                WeatherModel? weatherModel =
-                    await Provider.of<WeatherProvider>(context, listen: false)
-                        .getWeather(cityName: data);
+          child: Consumer(
+            builder: (context, ref, child) {
+              return TextField(
+                onSubmitted: (data) {
+                  ref.read(WeatherProvider.notifier).getWeather(cityName: data);
 
-                if (weatherModel != null) {
                   Navigator.pop(context);
-                } else {
-                  var snackBar = SnackBar(content: Text('Wrong City'));
-
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              decoration: const InputDecoration(
+                },
+                decoration: const InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   border: OutlineInputBorder(),
                   hintText: "Enter city",
                   suffixIcon: Icon(Icons.search),
-                  label: Text("Search"))),
+                  label: Text("Search"),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

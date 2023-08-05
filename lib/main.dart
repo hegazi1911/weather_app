@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/providers/weather_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) {
-        return WeatherProvider();
-      },
-      child: WeatherAPP()));
+  runApp(ProviderScope(child: const WeatherAPP()));
 }
 
 class WeatherAPP extends StatelessWidget {
@@ -19,11 +14,11 @@ class WeatherAPP extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-          primarySwatch: Provider.of<WeatherProvider>(context)
-                  .weatherModel
-                  ?.getThemeColor() ??
-              Colors.blue,
-        ),
+            // primarySwatch: Provider.of<WeatherProvider>(context)
+            //         .WeatherData
+            //         ?.getThemeColor() ??
+            //     Colors.blue,
+            ),
         home: HomePage());
   }
 }
